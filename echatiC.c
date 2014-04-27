@@ -55,19 +55,6 @@ void main(){
 			prompt= '\nERROR: Escriu una opcio correcta (1-5).\n';
 		}
 
-		
-
 	}
-
-
-
-
-
-
-
-
-
-
-
 }
 
