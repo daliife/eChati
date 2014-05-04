@@ -1,16 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-void main(){
-
 	opcio=0;
 
 	//carreguem dades de l'arxiu proporcionat
 	load ('eChati.h');
 
 	prompt = 'BENVINGUT A eCHATI!\n1.Mostrar un usuari de la base de dades i la seva imatge reconstruida.\n2.\nSelecciona una opcio (1-5): ';
-	result = input(prompt)
+	result = input(prompt);
 
 
 	while(opcio!=5){
