@@ -10,14 +10,15 @@
 %Carreguem l'axiu amb totes les dades a tractar de eChati
 load eChati.mat
 opcio = 1;
+norma_min = 10000;
 
 %Descomposicio en valors singulars per facilitar despres el calcul       
-[U,S,V] = svd(double(faces_database));
-Utinici = U(:,1:30);
-Stinici = S(1:30,1:30);
-Vtinici = V(:,1:30);
-Vtranspinici = transpose(Vtinici);
-Arecinici = Utinici * Stinici * Vtranspinici;
+%[U,S,V] = svd(double(faces_database));
+%Utinici = U(:,1:30);
+%Stinici = S(1:30,1:30);
+%Vtinici = V(:,1:30);
+%Vtranspinici = transpose(Vtinici);
+%Arecinici = Utinici * Stinici * Vtranspinici;
 
 
 while opcio~=5
@@ -60,12 +61,21 @@ while opcio~=5
             figure('Name','RESULTAT OPCIO 1','NumberTitle','off');
             subplot(1,2,1), imshow(mat2gray(original));
             subplot(1,2,2), imshow(mat2gray(reconstruida));
+            
+            
+            prompt = 'Clicka ENTER per tornar al menu principal...'; 
+            enter = input(prompt);
 
         case 2
 
-            figure('Name','RESULTAT OPCIO 2','NumberTitle','off');
-            subplot(1,2,1), imshow(mat2gray(original));
-            subplot(1,2,2), imshow(mat2gray(reconstruida));
+           figure('Name','RESULTAT OPCIO 2','NumberTitle','off');    
+           for index = 0:8
+                subplot(2,5,index+1), imshow(mat2gray(reshape(faces_users(:,index+1),100,90)));
+                subplot(2,5,index+2), imshow(mat2gray(reshape(faces_users(:,(index+2)),100,90)));
+           end
+           
+           prompt = 'Clicka ENTER per tornar al menu principal...'; 
+           enter = input(prompt);
             
             
         case 3
@@ -88,11 +98,28 @@ while opcio~=5
             for index_for = 1:19
                 if num_sexe == gender_database(index_for)
                     
+                    vUsuari = Arecinici(:, index_for);
                     
+                    vComparar = 
+                                         
+                    
+                    %Calculem la norma entre el vector original i el de
+                    %l'usuari a avaluar (amb la mateixa base!!!)
+                    norma=sqrt(dotprod(A(1,:),B(:,1)));
+                    
+                    %Ens guardem la columne que es troba l'usuari mes
+                    %semblant en el cas de que tingui una norma
+                    if norma < norma_min 
+                        usuari_semblant=index_for;
+                    end 
                 end
             end
             
-            %Resultat a
+            %Mostrem els resultats per pantalla
+            figure('Name','RESULTAT OPCIO 3','NumberTitle','off');
+            subplot(1,2,1), imshow(mat2gray(original));
+            subplot(1,2,2), imshow(mat2gray(reconstruida));
+
             
             
         case 4
@@ -106,8 +133,7 @@ while opcio~=5
              opcio = 1;
     end
     
-    prompt = 'Clicka ENTER per tornar al menu principal...'; 
-    enter = input(prompt);
+
 
         
 end
@@ -116,8 +142,11 @@ end
 prompt = '\nPrograma finalitzat amb èxit.\nPrem ENTER per acabar...'; 
 enter = input(prompt);
 
+%FINALITZACIó DEL PROGRAMA
 
-
+%--------------------------------------------------------------------------
+%                                    algebra 2014
+%--------------------------------------------------------------------------
 
 
 
