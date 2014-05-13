@@ -60,8 +60,9 @@ while opcio~=5
 
             figure('Name','RESULTAT OPCIO 1','NumberTitle','off');
             subplot(1,2,1), imshow(mat2gray(original));
+            title('Imatge original');
             subplot(1,2,2), imshow(mat2gray(reconstruida));
-            
+            title('Imatge reconstruida');
             
             prompt = 'Clicka ENTER per tornar al menu principal...'; 
             enter = input(prompt);
@@ -70,7 +71,7 @@ while opcio~=5
 
            figure('Name','RESULTAT OPCIO 2','NumberTitle','off');    
            for index = 0:8
-                subplot(2,5,index+1), imshow(mat2gray(reshape(faces_users(:,index+1),100,90)));
+                subplot(2,5,index+1),imshow(mat2gray(reshape(faces_users(:,index+1),100,90)));
                 subplot(2,5,index+2), imshow(mat2gray(reshape(faces_users(:,(index+2)),100,90)));
            end
            
@@ -98,9 +99,9 @@ while opcio~=5
             for index_for = 1:19
                 if num_sexe == gender_database(index_for)
                     
-                    vUsuari = Arecinici(:, index_for);
+                    %vUsuari = Arecinici(:, index_for);
                     
-                    vComparar = 
+                    %vComparar = 
                                          
                     
                     %Calculem la norma entre el vector original i el de
@@ -139,21 +140,11 @@ while opcio~=5
 end
 
 
-prompt = '\nPrograma finalitzat amb Ã¨xit.\nPrem ENTER per acabar...'; 
+prompt = '\nPrograma finalitzat amb èxit.\nPrem ENTER per acabar...'; 
 enter = input(prompt);
 
-%FINALITZACIÃ³ DEL PROGRAMA
+%FINALITZACIó DEL PROGRAMA
 
 %--------------------------------------------------------------------------
 %                                    algebra 2014
 %--------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
