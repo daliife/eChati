@@ -12,9 +12,6 @@ load eChati.mat
 opcio = 1;
 norma_min = 10000;
 
-%Fixem una p inicial
-p = 30;
-
 %Descomposicio en valors singulars per facilitar despres el calcul       
 %[U,S,V] = svd(double(faces_database));
 %Utinici = U(:,1:30);
@@ -24,28 +21,19 @@ p = 30;
 %Arecinici = Utinici * Stinici * Vtranspinici;
 
 
-while opcio~=6
+while opcio~=5
     
     %Demanem a l'usuari que entri una opcio de les disponibles
-    prompt = '\nBENVINGUT A ECHATI\n\n1.Carregar dades\n2.Mostrar un usuari de la base de dades i la seva imatge reconstruida.\n3.Mostrar els usuaris que busquen parella.\n4.eChati estandard.\n5.eChati Premium.\n6.Sortir del programa.\n\nSelecciona una opcio (1-6): ';
+    prompt = '\nBENVINGUT A ECHATI\n\n1.Mostrar un usuari de la base de dades i la seva imatge reconstruida.\n2.Mostrar els usuaris que busquen parella.\n3.eChati estandard.\n4.eChati Premium.\n5.Sortir del programa.\n\nSelecciona una opcio (1-5): ';
     opcio = input(prompt);
 
 
     switch opcio
-        
-        case 1
-            load eChati.mat;
-            [U,S,V] = svd(double(faces_database));
-            Ut = U(:,1:p);
-            matriuCanviBase = transpose(Ut);
-            
-            
-            
 
-        case 2
+        case 1
             %Demanem a l'usuari quin usuari de la base de dades vol mostrar
             prompt = '\nHAS SELECCIONAT LA OPCIO 1:\nEscriu el numero dusuari a mostrar (1-38): ';
-            num_usuari_base = input(prompt);
+            num_usuari_base= input(prompt);
 
             %Recreem de la matriu faces_database el usuari corresponent en una
             %nova matriu de 100 per 90
@@ -56,7 +44,8 @@ while opcio~=6
             prompt = 'Escriu el numero de components que vols agafar per fer la descomposicio: '; 
             p = input(prompt);
 
-            %Trunquem matrius en valors singulars
+            %Descomposicio en valors singulars
+            [U,S,V] = svd(double(faces_database));
             Ut = U(:,1:p);
             St = S(1:p,1:p);
             Vt = V(:,1:p);
@@ -69,7 +58,7 @@ while opcio~=6
             %Mostrem les dues imatges, original i reconstruida, en una nova
             %finestra
 
-            figure('Name','RESULTAT OPCIO 2','NumberTitle','off');
+            figure('Name','RESULTAT OPCIO 1','NumberTitle','off');
             subplot(1,2,1), imshow(mat2gray(original));
             title('Imatge original');
             subplot(1,2,2), imshow(mat2gray(reconstruida));
@@ -78,9 +67,9 @@ while opcio~=6
             prompt = 'Clicka ENTER per tornar al menu principal...'; 
             enter = input(prompt);
 
-        case 3
+        case 2
 
-           figure('Name','RESULTAT OPCIO 3','NumberTitle','off');    
+           figure('Name','RESULTAT OPCIO 2','NumberTitle','off');    
            for index = 0:8
                 subplot(2,5,index+1),imshow(mat2gray(reshape(faces_users(:,index+1),100,90)));
                 subplot(2,5,index+2), imshow(mat2gray(reshape(faces_users(:,(index+2)),100,90)));
@@ -90,8 +79,8 @@ while opcio~=6
            enter = input(prompt);
             
             
-        case 4
-            prompt = '\nHAS SELECCIONAT LA OPCIO 4:\nEscriu el numero dusuari que esta cercant parella (1-10): ';
+        case 3
+            prompt = '\nHAS SELECCIONAT LA OPCIO 3:\nEscriu el numero dusuari que esta cercant parella (1-10): ';
             num_usuari= input(prompt);
 
             sexe = input('Escriu el sexe de la parella que busca aquest usuari (H/M= masculi // D/F=femeni): ','s');
@@ -104,53 +93,43 @@ while opcio~=6
                 num_sexe=0;
             end
             
-            matriuUsuari = faces_users(:,num_usuari);
-            
-            % Cal fer el im2double perque si no fa un KABOOOOOOOOM precios,
-            % al no poder multiplicar dues matrius de uint8
-            usuariEnNovaBase = im2double(matriuCanviBase)*im2double(matriuUsuari);
-                    
-            usuariEnNovaBaseB = usuariEnNovaBase(1:p, 1);
-            
             
             %Comparem un a un el vector de l'usuari seleccionat i tots els
             %usuaris del sexe seleccionat per trobar al mes semblant
-            for index_for = 1:38
+            for index_for = 1:19
                 if num_sexe == gender_database(index_for)
                     
                     %vUsuari = Arecinici(:, index_for);
                     
                     %vComparar = 
+                                         
                     
                     %Calculem la norma entre el vector original i el de
                     %l'usuari a avaluar (amb la mateixa base!!!)
-                    norma=sqrt(dotprod(im2double(usuariEnNovaBaseB), im2double(faces_database(1:p,index_for))));
+                    norma=sqrt(dotprod(A(1,:),B(:,1)));
                     
                     %Ens guardem la columne que es troba l'usuari mes
                     %semblant en el cas de que tingui una norma
                     if norma < norma_min 
                         usuari_semblant=index_for;
-                        norma_min = norma;
                     end 
                 end
             end
             
             %Mostrem els resultats per pantalla
-            figure('Name','RESULTAT OPCIO 4','NumberTitle','off');
-            subplot(1,2,1), imshow(mat2gray(matriuUsuari));
-            title(['Usuari numero ',num2str(num_usuari)]);
+            figure('Name','RESULTAT OPCIO 3','NumberTitle','off');
+            subplot(1,2,1), imshow(mat2gray(original));
             subplot(1,2,2), imshow(mat2gray(reconstruida));
-            title('Millor resultat trobat');
 
             
+            
+        case 4
             
         case 5
-            
-        case 6
-            opcio = 6;
+            opcio = 5;
 
         otherwise
-             prompt = '\n\ERROR! Numero dopcio incorrecta (1-6)\nClicka ENTER per tornar al menu principal...'; 
+             prompt = '\n\ERROR! Numero dopcio incorrecta (1-5)\nClicka ENTER per tornar al menu principal...'; 
              enter = input(prompt);
              opcio = 1;
     end
