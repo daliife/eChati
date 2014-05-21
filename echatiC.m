@@ -8,12 +8,18 @@
 %INICI DEL PROGRAMA
 
 %Carreguem l'axiu amb totes les dades a tractar de eChati
-load eChati.mat
 opcio = 1;
 norma_min = 10000;
 
 %Fixem una p inicial
 p = 30;
+
+semblant1 = 0;
+coeficient1 = -999999;
+semblant2 = 0;
+coeficient2 = -999999;
+semblant3 = 0;
+coeficient3 = -9999999;
 
 %Descomposicio en valors singulars per facilitar despres el calcul       
 %[U,S,V] = svd(double(faces_database));
@@ -153,6 +159,95 @@ while opcio~=6
             
         case 5
             
+            
+            
+            prompt = '\n****************************\n****** PREMIUM OPTION ******\n****************************\nHAS SELECCIONAT LA OPCIO 5:\nEscriu el numero dusuari que esta cercant parella (1-10): ';
+            num_usuari= input(prompt);
+
+            sexe = input('Escriu el sexe de la parella que busca aquest usuari (H/M= masculi // D/F=femeni): ','s');
+            
+            %Creem una nova variable per despres comprovar el genere al
+            %vector boolea gender_database
+            if sexe=='H' || sexe=='M' || sexe=='h' || sexe=='m'
+                num_sexe=1;
+            else
+                num_sexe=0;
+            end
+            
+            matriuUsuari = faces_users(:,num_usuari);
+            
+            % Cal fer el im2double perque si no fa un KABOOOOOOOOM precios,
+            % al no poder multiplicar dues matrius de uint8
+            usuariEnNovaBase = im2double(matriuCanviBase)*im2double(matriuUsuari);
+            
+            biometricsUsuariABuscar = biometrics_users(:,num_usuari);
+            
+            usuariEnNovaBaseTranspost = transpose(usuariEnNovaBase);
+            
+            %Comparem un a un el vector de l'usuari seleccionat i tots els
+            %usuaris del sexe seleccionat per trobar al mes semblant
+            for index_for = 1:38
+                if num_sexe == gender_database(index_for)
+                    
+                    %vUsuari = Arecinici(:, index_for);
+                    
+                    %vComparar = 
+                    
+                    usuariAComparar = ArecTruncada(:,index_for);
+                    
+                    
+                    
+                    %Calculem la norma entre el vector original i el de
+                    %l'usuari a avaluar (amb la mateixa base!!!)
+                    normaNormal=dotprod(usuariEnNovaBaseTranspost, usuariAComparar);
+                    
+                    
+                    
+                    biometricsFor = biometrics_database(:,index_for);
+                    
+                    normaBiometrica = dotprod(biometricsUsuariABuscar, transpose(biometricsFor));
+                    
+                    coeficient = normaNormal + normaBiometrica;
+                    
+                    if(coeficient > semblant1)
+                        semblant1 = index_for;
+                        coeficient1 = coeficient;
+                    elseif(coeficient > semblant2)
+                        semblant2 = index_for;
+                        coeficient2 = coeficient;
+                    elseif(coeficient > semblant3)    
+                        semblant3 = index_for;
+                        coeficient3 = coeficient;
+                    end     
+                end
+            end
+            
+            reconstruida1 = Arec(:, semblant1);
+            reconstruida2 = Arec(:, semblant2);
+            reconstruida3 = Arec(:, semblant3);
+            
+            %Mostrem els resultats per pantalla
+            figure('Name','RESULTAT OPCIO 5','NumberTitle','off');
+            subplot(3,2,3), imshow(mat2gray(reshape(matriuUsuari, 100, 90)));
+            title(['Usuari numero ',num2str(num_usuari)]);
+            
+            subplot(3,2,2), imshow(mat2gray(reshape(reconstruida1, 100, 90)));
+            subplot(3,2,4), imshow(mat2gray(reshape(reconstruida2, 100, 90)));
+            subplot(3,2,6), imshow(mat2gray(reshape(reconstruida3, 100, 90)));
+            title('Millor resultat trobat');
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
         case 6
             opcio = 6;
 
@@ -168,10 +263,10 @@ while opcio~=6
 end
 
 
-prompt = '\nPrograma finalitzat amb èxit.\nPrem ENTER per acabar...'; 
+prompt = '\nPrograma finalitzat amb ?xit.\nPrem ENTER per acabar...'; 
 enter = input(prompt);
 
-%FINALITZACIó DEL PROGRAMA
+%FINALITZACI? DEL PROGRAMA
 
 %--------------------------------------------------------------------------
 %                                    algebra 2014
