@@ -43,10 +43,10 @@ while opcio~=6
             Vtransp = transpose(Vt);
             Arec = Ut * St * Vtransp;
             
-            ArecTruncada = Arec(1:p, :);
+            ArecTruncada = Arec(1:30
             
             
-    
+            
 
         case 2
             %Demanem a l'usuari quin usuari de la base de dades vol mostrar
@@ -112,7 +112,6 @@ while opcio~=6
             % al no poder multiplicar dues matrius de uint8
             usuariEnNovaBase = im2double(matriuCanviBase)*im2double(matriuUsuari);
             
-            usuariEnNovaBaseTranspost = transpose(usuariEnNovaBase);
             
             %Comparem un a un el vector de l'usuari seleccionat i tots els
             %usuaris del sexe seleccionat per trobar al mes semblant
@@ -123,13 +122,11 @@ while opcio~=6
                     
                     %vComparar = 
                     
-                    usuariAComparar = ArecTruncada(:,index_for);
-                    
-                    
+                    usuariAComparar = Arec(:,index_for);
                     
                     %Calculem la norma entre el vector original i el de
                     %l'usuari a avaluar (amb la mateixa base!!!)
-                    norma=sqrt(dotprod(usuariEnNovaBaseTranspost, usuariAComparar));
+                    norma=sqrt(dotprod(usuariEnNovaBase, usuariAComparar));
                     
                     %Ens guardem la columne que es troba l'usuari mes
                     %semblant en el cas de que tingui una norma
@@ -140,13 +137,11 @@ while opcio~=6
                 end
             end
             
-            reconstruida = Arec(:, usuari_semblant);
-            
             %Mostrem els resultats per pantalla
             figure('Name','RESULTAT OPCIO 4','NumberTitle','off');
-            subplot(1,2,1), imshow(mat2gray(reshape(matriuUsuari, 100, 90)));
+            subplot(1,2,1), imshow(mat2gray(matriuUsuari));
             title(['Usuari numero ',num2str(num_usuari)]);
-            subplot(1,2,2), imshow(mat2gray(reshape(reconstruida, 100, 90)));
+            subplot(1,2,2), imshow(mat2gray(reconstruida));
             title('Millor resultat trobat');
 
             
