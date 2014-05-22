@@ -2,17 +2,18 @@
 %
 %           ECHATI, el buscador de parelles ideal!
 %
-%   by Pablo Gonzalez, Dani Reixats, Carlos Quintana i David Gimeno
+%   
 %--------------------------------------------------------------------------
 
 %INICI DEL PROGRAMA
 
-%Carreguem l'axiu amb totes les dades a tractar de eChati
+%Fixem una p inicial
+p = 30;
+
+%Inicialització de variables
 opcio = 1;
 norma_min = 10000;
 
-%Fixem una p inicial
-p = 30;
 
 semblant1 = 0;
 coeficient1 = -999999;
@@ -20,14 +21,6 @@ semblant2 = 0;
 coeficient2 = -999999;
 semblant3 = 0;
 coeficient3 = -9999999;
-
-%Descomposicio en valors singulars per facilitar despres el calcul       
-%[U,S,V] = svd(double(faces_database));
-%Utinici = U(:,1:30);
-%Stinici = S(1:30,1:30);
-%Vtinici = V(:,1:30);
-%Vtranspinici = transpose(Vtinici);
-%Arecinici = Utinici * Stinici * Vtranspinici;
 
 
 while opcio~=6
@@ -249,9 +242,9 @@ while opcio~=6
                 end
             end
             
-            reconstruida1 = Arec(:, semblant1);
-            reconstruida2 = Arec(:, semblant2);
-            reconstruida3 = Arec(:, semblant3);
+            reconstruida1 = faces_database(:, semblant1);
+            reconstruida2 = faces_database(:, semblant2);
+            reconstruida3 = faces_database(:, semblant3);
             
             %Mostrem els resultats per pantalla
             figure('Name','RESULTAT OPCIO 5','NumberTitle','off');
@@ -262,18 +255,6 @@ while opcio~=6
             title('Millor resultat trobat');
             subplot(3,2,4), imshow(mat2gray(reshape(reconstruida2, 100, 90)));
             subplot(3,2,6), imshow(mat2gray(reshape(reconstruida3, 100, 90)));
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
             
             
         case 6
@@ -294,8 +275,8 @@ end
 prompt = '\nPrograma finalitzat amb ?xit.\nPrem ENTER per acabar...'; 
 enter = input(prompt);
 
-%FINALITZACI? DEL PROGRAMA
+%FINALITZACIÓ DEL PROGRAMA
 
 %--------------------------------------------------------------------------
-%                                    algebra 2014
+%                                    Algebra 2014
 %--------------------------------------------------------------------------
