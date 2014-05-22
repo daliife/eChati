@@ -2,7 +2,7 @@
 %
 %           ECHATI, el buscador de parelles ideal!
 %
-%   
+%   by Pablo Gonzalez, Dani Reixats, Carlos Quintana i David Gimeno
 %--------------------------------------------------------------------------
 
 %INICI DEL PROGRAMA
