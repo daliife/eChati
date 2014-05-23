@@ -12,7 +12,7 @@ p = 30;
 
 %Inicialització de variables
 opcio = 1;
-norma_min = 10000;
+norma_min = 99999999999999;
 
 
 semblant1 = 0;
@@ -101,6 +101,8 @@ while opcio~=6
             
             prompt = 'Clicka ENTER per tornar al menu principal...'; 
             enter = input(prompt);
+            
+            
 
         case 3
 
@@ -151,7 +153,9 @@ while opcio~=6
                     
                     %Calculem la norma entre el vector original i el de
                     %l'usuari a avaluar (amb la mateixa base!!!)
-                    norma=sqrt(dotprod(usuariEnNovaBaseTranspost, usuariAComparar));
+                    
+                    %norma=(dotprod(usuariEnNovaBaseTranspost, usuariAComparar))
+                    norma = norm(usuariEnNovaBase - usuariAComparar);
                     
                     %Ens guardem la columne que es troba l'usuari mes
                     %semblant en el cas de que tingui una norma
@@ -162,7 +166,7 @@ while opcio~=6
                 end
             end
             
-            reconstruida = Arec(:, usuari_semblant);
+            reconstruida = faces_database(:, usuari_semblant);
             
             %Mostrem els resultats per pantalla
             figure('Name','RESULTAT OPCIO 4','NumberTitle','off');
@@ -170,6 +174,8 @@ while opcio~=6
             title(['Usuari numero ',num2str(num_usuari)]);
             subplot(1,2,2), imshow(mat2gray(reshape(reconstruida, 100, 90)));
             title('Millor resultat trobat');
+            
+            norma_min = 99999999999;
 
             
             
@@ -221,7 +227,7 @@ while opcio~=6
                     
                     biometricsFor = biometrics_database(:,index_for);
                     
-                    normaBiometrica = dotprod(biometricsUsuariABuscar, transpose(biometricsFor));
+                    normaBiometrica = norm(biometricsUsuariABuscar - biometricsFor);
                     
                     coeficient = normaNormal + normaBiometrica;
                     
